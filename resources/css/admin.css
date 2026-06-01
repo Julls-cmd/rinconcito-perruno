@@ -1,0 +1,833 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+    background: #F5E6D0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #3D1C02;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: 'Fredoka One', cursive;
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+button {
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+}
+
+/* ── NAVBAR ── */
+.admin-navbar {
+    background: #3D1C02;
+    border-bottom: 3px solid #C9A84C;
+    padding: 0 2rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.admin-navbar-logo {
+    font-family: 'Fredoka One', cursive;
+    color: #C9A84C;
+    font-size: 20px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-navbar-logo img {
+    height: 38px;
+    width: 38px;
+    object-fit: contain;
+    border-radius: 50%;
+    border: 2px solid #C9A84C;
+}
+
+.admin-badge {
+    background: #C9A84C;
+    color: #3D1C02;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.admin-navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: #F5E6D0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.btn-logout {
+    background: transparent;
+    color: #C9A84C;
+    border: 2px solid #C9A84C;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background .2s;
+}
+
+.btn-logout:hover {
+    background: rgba(201, 168, 76, 0.15);
+}
+
+/* ── LAYOUT ── */
+.admin-wrapper {
+    display: flex;
+    min-height: calc(100vh - 64px);
+}
+
+.admin-sidebar {
+    width: 220px;
+    background: #3D1C02;
+    border-right: 2px solid rgba(201, 168, 76, 0.2);
+    flex-shrink: 0;
+    padding: 1.5rem 0;
+}
+
+.admin-sidebar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.admin-sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 1.5rem;
+    color: rgba(245, 230, 208, 0.7);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all .2s;
+    border-left: 3px solid transparent;
+}
+
+.admin-sidebar a:hover {
+    color: #C9A84C;
+    background: rgba(201, 168, 76, 0.08);
+    border-left-color: #C9A84C;
+}
+
+.admin-sidebar a.active {
+    color: #C9A84C;
+    background: rgba(201, 168, 76, 0.12);
+    border-left-color: #C9A84C;
+}
+
+.admin-sidebar svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.admin-main {
+    flex: 1;
+    padding: 2rem;
+    overflow-x: auto;
+}
+
+.admin-header {
+    margin-bottom: 2rem;
+}
+
+.admin-header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 28px;
+    color: #3D1C02;
+    margin-bottom: .25rem;
+}
+
+.admin-header p {
+    font-size: 14px;
+    color: #8B4513;
+}
+
+/* ── STATS ── */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.25rem;
+    border: 2px solid #EDD5B3;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: transform .2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.stat-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
+.stat-icon.teal {
+    background: rgba(125, 212, 200, 0.2);
+    color: #4AADA0;
+}
+
+.stat-icon.gold {
+    background: rgba(201, 168, 76, 0.15);
+    color: #C9A84C;
+}
+
+.stat-icon.brown {
+    background: rgba(61, 28, 2, 0.1);
+    color: #3D1C02;
+}
+
+.stat-icon.orange {
+    background: rgba(234, 88, 12, 0.1);
+    color: #ea580c;
+}
+
+.stat-num {
+    font-family: 'Fredoka One', cursive;
+    font-size: 26px;
+    color: #3D1C02;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #8B4513;
+    font-weight: 600;
+}
+
+/* ── CARDS ── */
+.admin-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.admin-card {
+    background: white;
+    border-radius: 20px;
+    padding: 1.5rem;
+    border: 2px solid #EDD5B3;
+    box-shadow: 0 4px 15px rgba(61, 28, 2, 0.06);
+    overflow-x: auto;
+}
+
+.admin-card-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 18px;
+    color: #3D1C02;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.admin-card-title svg {
+    width: 20px;
+    height: 20px;
+    color: #C9A84C;
+}
+
+.ver-todo {
+    margin-left: auto;
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #C9A84C;
+    text-decoration: none;
+}
+
+.ver-todo:hover {
+    color: #8B4513;
+}
+
+/* ── TABLA ── */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.admin-table th {
+    background: #3D1C02;
+    color: #C9A84C;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.admin-table th:first-child {
+    border-radius: 8px 0 0 8px;
+}
+
+.admin-table th:last-child {
+    border-radius: 0 8px 8px 0;
+}
+
+.admin-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #EDD5B3;
+    color: #3D1C02;
+    vertical-align: middle;
+}
+
+.admin-table tr:last-child td {
+    border-bottom: none;
+}
+
+.admin-table tr:hover td {
+    background: rgba(245, 230, 208, 0.5);
+}
+
+.empty-row {
+    text-align: center;
+    color: #8B4513;
+    font-style: italic;
+    padding: 2rem !important;
+}
+
+/* ── BADGES ── */
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-pendiente {
+    background: rgba(234, 179, 8, 0.15);
+    color: #92400e;
+}
+
+.badge-confirmada {
+    background: rgba(125, 212, 200, 0.2);
+    color: #4AADA0;
+}
+
+.badge-en_curso {
+    background: rgba(61, 28, 2, 0.1);
+    color: #3D1C02;
+}
+
+.badge-finalizada {
+    background: rgba(74, 173, 160, 0.15);
+    color: #4AADA0;
+}
+
+.badge-cancelada {
+    background: rgba(220, 38, 38, 0.1);
+    color: #dc2626;
+}
+
+.badge-aprobada {
+    background: rgba(125, 212, 200, 0.2);
+    color: #4AADA0;
+}
+
+.badge-rechazada {
+    background: rgba(220, 38, 38, 0.1);
+    color: #dc2626;
+}
+
+/* ── BOTONES ACCIÓN ── */
+.action-btns {
+    display: flex;
+    gap: 6px;
+}
+
+.btn-aprobar {
+    background: rgba(125, 212, 200, 0.2);
+    color: #4AADA0;
+    border: 1px solid #7DD4C8;
+    padding: 5px 12px;
+    border-radius: 10px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background .2s;
+}
+
+.btn-aprobar:hover {
+    background: rgba(125, 212, 200, 0.4);
+}
+
+.btn-rechazar {
+    background: rgba(220, 38, 38, 0.08);
+    color: #dc2626;
+    border: 1px solid #dc2626;
+    padding: 5px 12px;
+    border-radius: 10px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background .2s;
+}
+
+.btn-rechazar:hover {
+    background: rgba(220, 38, 38, 0.15);
+}
+
+/* ── ALERTAS ── */
+.alert-success {
+    background: rgba(125, 212, 200, 0.2);
+    border: 2px solid #7DD4C8;
+    border-radius: 12px;
+    padding: 1rem;
+    color: #4AADA0;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    font-size: 14px;
+}
+
+@media (max-width: 900px) {
+    .admin-sidebar {
+        display: none;
+    }
+
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ═══════════════════════════════════════════
+   MÓDULO MULTIMEDIA — estilos admin
+   ═══════════════════════════════════════════ */
+
+/* ── Alerta error ── */
+.alert-error {
+    background: rgba(220, 38, 38, 0.08);
+    border: 2px solid #dc2626;
+    border-radius: 12px;
+    padding: 1rem;
+    color: #dc2626;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    font-size: 14px;
+}
+
+/* ── Zona de subida ── */
+.upload-zone {
+    background: white;
+    border: 2px solid #EDD5B3;
+    border-radius: 20px;
+    padding: 1.75rem;
+    box-shadow: 0 4px 15px rgba(61, 28, 2, 0.06);
+}
+
+.upload-zone-header {
+    font-family: 'Fredoka One', cursive;
+    font-size: 18px;
+    color: #3D1C02;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #EDD5B3;
+}
+
+.upload-zone-header svg {
+    width: 20px;
+    height: 20px;
+    color: #C9A84C;
+}
+
+/* ── Formulario de subida ── */
+.upload-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+
+.upload-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.upload-field:first-child,
+.upload-field:nth-child(2) {
+    grid-column: span 1;
+}
+
+.upload-field:nth-child(3) {
+    grid-column: 1 / -1;
+}
+
+.upload-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8B4513;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.upload-select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid #EDD5B3;
+    border-radius: 10px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    color: #3D1C02;
+    background: #FDFAF6;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238B4513' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+}
+
+.upload-select:focus {
+    outline: none;
+    border-color: #C9A84C;
+}
+
+.upload-textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid #EDD5B3;
+    border-radius: 10px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    color: #3D1C02;
+    background: #FDFAF6;
+    resize: vertical;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+
+.upload-textarea:focus {
+    outline: none;
+    border-color: #C9A84C;
+}
+
+/* ── Drop area para file input ── */
+.file-drop-area {
+    position: relative;
+    border: 2px dashed #EDD5B3;
+    border-radius: 12px;
+    background: #FDFAF6;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s, background 0.2s;
+    overflow: hidden;
+}
+
+.file-drop-area:hover {
+    border-color: #C9A84C;
+    background: rgba(201, 168, 76, 0.04);
+}
+
+.file-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.file-drop-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 1.2rem;
+    text-align: center;
+    color: #8B4513;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.file-drop-label svg {
+    width: 28px;
+    height: 28px;
+    color: #C9A84C;
+}
+
+.file-drop-label span {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.file-drop-label small {
+    font-size: 12px;
+    color: #aaa;
+}
+
+.file-preview {
+    padding: 0.5rem;
+    text-align: center;
+    width: 100%;
+}
+
+.preview-name {
+    font-size: 12px;
+    color: #8B4513;
+    margin-top: 6px;
+    font-weight: 600;
+    word-break: break-all;
+}
+
+/* ── Botón subir ── */
+.btn-subir {
+    grid-column: 1 / -1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #3D1C02;
+    color: #C9A84C;
+    border: 2px solid #C9A84C;
+    padding: 12px 28px;
+    border-radius: 24px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    align-self: end;
+}
+
+.btn-subir:hover {
+    background: #8B4513;
+    transform: translateY(-2px);
+}
+
+.btn-subir svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* ── Grid archivos admin ── */
+.media-grid-admin {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1rem;
+}
+
+/* ── Thumb admin ── */
+.media-thumb-admin {
+    border: 2px solid #EDD5B3;
+    border-radius: 14px;
+    overflow: hidden;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.media-thumb-admin:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(61, 28, 2, 0.1);
+}
+
+.media-preview-admin {
+    position: relative;
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+    background: #111;
+    flex-shrink: 0;
+}
+
+.media-preview-admin img,
+.media-preview-admin video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.video-overlay-admin {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.3);
+    pointer-events: none;
+}
+
+.video-overlay-admin svg {
+    width: 36px;
+    height: 36px;
+    opacity: 0.9;
+}
+
+.media-badge-tipo {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 3px 8px;
+    border-radius: 10px;
+}
+
+.media-badge-tipo.foto {
+    background: rgba(201, 168, 76, 0.9);
+    color: #3D1C02;
+}
+
+.media-badge-tipo.video {
+    background: rgba(74, 173, 160, 0.9);
+    color: white;
+}
+
+.media-info-admin {
+    padding: 0.75rem;
+    flex: 1;
+    border-top: 1px solid #EDD5B3;
+}
+
+.media-perro-admin {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #3D1C02;
+    margin-bottom: 4px;
+}
+
+.media-desc-admin {
+    font-size: 12px;
+    color: #8B4513;
+    margin-bottom: 3px;
+    line-height: 1.4;
+}
+
+.media-fecha-admin {
+    font-size: 11px;
+    color: #aaa;
+}
+
+/* ── Botón eliminar ── */
+.btn-eliminar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+    padding: 8px;
+    background: rgba(220, 38, 38, 0.06);
+    color: #dc2626;
+    border: none;
+    border-top: 1px solid rgba(220, 38, 38, 0.15);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-radius: 0 0 12px 12px;
+}
+
+.btn-eliminar:hover {
+    background: rgba(220, 38, 38, 0.14);
+}
+
+.btn-eliminar svg {
+    width: 13px;
+    height: 13px;
+}
+
+/* ── Responsive upload form ── */
+@media (max-width: 700px) {
+    .upload-form {
+        grid-template-columns: 1fr;
+    }
+
+    .upload-field:nth-child(3) {
+        grid-column: 1;
+    }
+
+    .btn-subir {
+        grid-column: 1;
+    }
+
+    .media-grid-admin {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+}

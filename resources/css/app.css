@@ -1,0 +1,25 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+:root {
+    --brown-dark: #3D1C02;
+    --brown-mid: #8B4513;
+    --gold: #C9A84C;
+    --teal: #7DD4C8;
+    --teal-dark: #4AADA0;
+    --cream: #F5E6D0;
+    --cream-dark: #EDD5B3;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    color: var(--brown-dark);
+}
+
+h1,
+h2,
+h3,
+.font-display {
+    font-family: 'Fredoka One', cursive;
+}

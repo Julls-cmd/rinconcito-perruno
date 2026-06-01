@@ -1,0 +1,218 @@
+body { font-family: 'Nunito', sans-serif; background: #F5E6D0; }
+.dashboard-wrapper { 
+    max-width: 1100px; 
+    margin: 0 auto; 
+    padding: 2rem 1.5rem; 
+    min-height: calc(100vh - 65px);
+    display: flex;
+    flex-direction: column;
+}
+
+/* BIENVENIDA */
+.welcome-card {
+    background: linear-gradient(135deg, #3D1C02 0%, #8B4513 100%);
+    border-radius: 20px;
+    padding: 2rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    border: 2px solid #C9A84C;
+    box-shadow: 0 8px 30px rgba(61,28,2,0.2);
+}
+.welcome-text h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 28px;
+    color: #C9A84C;
+    margin-bottom: 0.25rem;
+}
+.welcome-text p { color: rgba(245,230,208,0.8); font-size: 15px; }
+.welcome-logo { height: 80px; width: 80px; object-fit: cover; border-radius: 50%; border: 3px solid #C9A84C; }
+
+/* STATS CARDS */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+}
+.stat-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 2px solid #EDD5B3;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: transform .2s, box-shadow .2s;
+}
+.stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(61,28,2,0.1); }
+.stat-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.stat-icon svg { width: 26px; height: 26px; }
+.stat-icon.brown { background: rgba(61,28,2,0.1); color: #3D1C02; }
+.stat-icon.gold { background: rgba(201,168,76,0.15); color: #C9A84C; }
+.stat-icon.teal { background: rgba(125,212,200,0.2); color: #4AADA0; }
+.stat-num { font-family: 'Fredoka One', cursive; font-size: 28px; color: #3D1C02; line-height: 1; }
+.stat-label { font-size: 13px; color: #8B4513; font-weight: 600; }
+
+/* SECCIONES */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: stretch;
+    justify-items: stretch;
+    flex: 1;
+    width: 100%;
+}
+
+/* La columna de reservas ocupa toda su altura */
+.dashboard-grid > .card {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* La columna del sidebar (perros + bonos) se estira como flex column */
+.dashboard-sidebar-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    min-width: 0;
+}
+
+.dashboard-sidebar-col .card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    width: 100%;
+}
+
+/* El contenido de cada card se desplaza si hay overflow */
+.dashboard-sidebar-col .card-items {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 1.75rem;
+    border: 2px solid #EDD5B3;
+    box-sizing: border-box;
+}
+.card-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 20px;
+    color: #3D1C02;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.card-title svg { width: 22px; height: 22px; color: #C9A84C; }
+
+/* RESERVAS */
+.reserva-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-radius: 12px;
+    background: #FDFAF6;
+    border: 1px solid #EDD5B3;
+    margin-bottom: 0.75rem;
+    transition: border-color .2s;
+}
+.reserva-item:hover { border-color: #C9A84C; }
+.reserva-info h4 { font-weight: 700; font-size: 15px; color: #3D1C02; margin-bottom: 2px; }
+.reserva-info p { font-size: 13px; color: #8B4513; }
+.reserva-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.badge-pendiente { background: rgba(234,179,8,0.15); color: #92400e; }
+.badge-confirmada { background: rgba(125,212,200,0.2); color: #4AADA0; }
+.badge-en_curso { background: rgba(61,28,2,0.1); color: #3D1C02; }
+.badge-finalizada { background: rgba(74,173,160,0.15); color: #4AADA0; }
+.badge-cancelada { background: rgba(220,38,38,0.1); color: #dc2626; }
+
+/* PERROS */
+.perro-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0.875rem;
+    border-radius: 12px;
+    background: #FDFAF6;
+    border: 1px solid #EDD5B3;
+    margin-bottom: 0.75rem;
+}
+.perro-avatar {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, #C9A84C, #E8C97A);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    border: 2px solid #3D1C02;
+}
+.perro-avatar svg { width: 22px; height: 22px; color: #3D1C02; }
+.perro-name { font-weight: 700; font-size: 15px; color: #3D1C02; }
+.perro-raza { font-size: 12px; color: #8B4513; }
+
+/* BONOS */
+.bono-item {
+    padding: 1rem;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #3D1C02, #8B4513);
+    border: 1px solid #C9A84C;
+    margin-bottom: 0.75rem;
+    color: white;
+}
+.bono-name { font-weight: 700; font-size: 14px; color: #C9A84C; margin-bottom: 4px; }
+.bono-desc { font-size: 12px; color: rgba(245,230,208,0.7); }
+.bono-usos { font-size: 12px; color: #7DD4C8; margin-top: 4px; font-weight: 600; }
+
+/* ACCIONES RAPIDAS */
+.actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+.action-btn {
+    background: white;
+    border: 2px solid #EDD5B3;
+    border-radius: 14px;
+    padding: 1.25rem;
+    text-align: center;
+    text-decoration: none;
+    transition: all .2s;
+    display: block;
+}
+.action-btn:hover { border-color: #C9A84C; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(61,28,2,0.1); }
+.action-btn svg { width: 28px; height: 28px; color: #C9A84C; margin: 0 auto 0.5rem; display: block; }
+.action-btn span { font-family: 'Fredoka One', cursive; font-size: 15px; color: #3D1C02; display: block; }
+.action-btn small { font-size: 12px; color: #8B4513; }
+
+/* EMPTY STATE */
+.empty-state { text-align: center; padding: 2rem; color: #8B4513; }
+.empty-state svg { width: 48px; height: 48px; color: #EDD5B3; margin: 0 auto 1rem; display: block; }
+.empty-state p { font-size: 14px; }
+
+@media (max-width: 768px) {
+    .dashboard-grid { grid-template-columns: 1fr; }
+    .welcome-card { flex-direction: column; text-align: center; gap: 1rem; }
+    .actions-grid { grid-template-columns: 1fr 1fr; }
+}
