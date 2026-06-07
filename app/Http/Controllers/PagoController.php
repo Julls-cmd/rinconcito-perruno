@@ -49,6 +49,10 @@ class PagoController extends Controller
                         ->where('id_usuario', Auth::id())
                         ->where('activo', true)
                         ->where('usos_restantes', '>', 0)
+                        ->where(function ($q) {
+                            $q->whereNull('fecha_expiracion')
+                              ->orWhere('fecha_expiracion', '>', now());
+                        })
                         ->first();
 
             if ($bono) {
@@ -92,6 +96,10 @@ class PagoController extends Controller
                         ->where('id_usuario', Auth::id())
                         ->where('activo', true)
                         ->where('usos_restantes', '>', 0)
+                        ->where(function ($q) {
+                            $q->whereNull('fecha_expiracion')
+                              ->orWhere('fecha_expiracion', '>', now());
+                        })
                         ->first();
 
             if ($bono) {
