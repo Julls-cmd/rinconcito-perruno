@@ -7,6 +7,7 @@ use App\Models\Reserva;
 use App\Models\Servicio;
 use App\Models\Perro;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ReservaController extends Controller
 {
@@ -51,35 +52,39 @@ class ReservaController extends Controller
             abort(403, 'Este perro no te pertenece.');
         }
 
-        // Verificar disponibilidad
-        $conflicto = Reserva::whereIn('estado', ['confirmada', 'en_curso', 'pendiente'])
-            ->where(function ($query) use ($request) {
-                $query->whereBetween('fecha_entrada', [$request->fecha_entrada, $request->fecha_salida])
-                      ->orWhereBetween('fecha_salida', [$request->fecha_entrada, $request->fecha_salida])
-                      ->orWhere(function ($q) use ($request) {
-                          $q->where('fecha_entrada', '<=', $request->fecha_entrada)
-                            ->where('fecha_salida', '>=', $request->fecha_salida);
-                      });
-            })->exists();
+        return DB::transaction(function () use ($request) {
+            // Verificar disponibilidad
+            $conflicto = Reserva::whereIn('estado', ['confirmada', 'en_curso', 'pendiente'])
+                ->where(function ($query) use ($request) {
+                    $query->whereBetween('fecha_entrada', [$request->fecha_entrada, $request->fecha_salida])
+                          ->orWhereBetween('fecha_salida', [$request->fecha_entrada, $request->fecha_salida])
+                          ->orWhere(function ($q) use ($request) {
+                              $q->where('fecha_entrada', '<=', $request->fecha_entrada)
+                                ->where('fecha_salida', '>=', $request->fecha_salida);
+                          });
+                })
+                ->lockForUpdate()
+                ->exists();
 
-        if ($conflicto) {
-            return redirect()->back()
-                ->with('error', 'Las fechas seleccionadas no están disponibles. Por favor elige otras fechas.')
-                ->withInput();
-        }
+            if ($conflicto) {
+                return redirect()->back()
+                    ->with('error', 'Las fechas seleccionadas no están disponibles. Por favor elige otras fechas.')
+                    ->withInput();
+            }
 
-        Reserva::create([
-            'fecha_entrada'      => $request->fecha_entrada,
-            'fecha_salida'       => $request->fecha_salida,
-            'estado'             => 'pendiente',
-            'id_usuario'         => Auth::id(),
-            'id_perro'           => $request->id_perro,
-            'id_servicio'        => $request->id_servicio,
-            'direccion_recogida' => $request->direccion_recogida,
-            'notas'              => $request->notas,
-        ]);
+            Reserva::create([
+                'fecha_entrada'      => $request->fecha_entrada,
+                'fecha_salida'       => $request->fecha_salida,
+                'estado'             => 'pendiente',
+                'id_usuario'         => Auth::id(),
+                'id_perro'           => $request->id_perro,
+                'id_servicio'        => $request->id_servicio,
+                'direccion_recogida' => $request->direccion_recogida,
+                'notas'              => $request->notas,
+            ]);
 
-        return redirect()->route('dashboard')
-            ->with('success', '¡Reserva realizada correctamente! Nos pondremos en contacto contigo para confirmarla.');
+            return redirect()->route('dashboard')
+                ->with('success', '¡Reserva realizada correctamente! Nos pondremos en contacto contigo para confirmarla.');
+        });
     }
 }
