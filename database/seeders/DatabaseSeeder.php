@@ -13,5 +13,7 @@ class DatabaseSeeder extends Seeder
             ServicioSeeder::class,
             PerroSeeder::class,
         ]);
+
+        $this->call(ReservaSeeder::class);
     }
 }

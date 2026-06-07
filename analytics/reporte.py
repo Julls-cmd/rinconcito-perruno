@@ -52,7 +52,7 @@ def conectar():
     try:
         return mysql.connector.connect(**DB_CONFIG)
     except mysql.connector.Error as err:
-        print(f'❌ Error al conectar con MySQL: {err}')
+        print(f'Error al conectar con MySQL: {err}')
         sys.exit(1)
 
 
