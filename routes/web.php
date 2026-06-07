@@ -28,11 +28,11 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard');
 
 Route::get('/preinscripcion', [PreinscripcionController::class, 'create'])->name('preinscripcion.create');
-Route::post('/preinscripcion', [PreinscripcionController::class, 'store'])->name('preinscripcion.store');
+Route::post('/preinscripcion', [PreinscripcionController::class, 'store'])->middleware('throttle:5,1')->name('preinscripcion.store');
 
 Route::get('/disponibilidad', [ReservaController::class, 'index'])->name('reservas.index');
 Route::get('/disponibilidad/eventos', [ReservaController::class, 'disponibilidad'])->name('reservas.disponibilidad');
-Route::post('/reservas', [ReservaController::class, 'store'])->middleware('auth')->name('reservas.store');
+Route::post('/reservas', [ReservaController::class, 'store'])->middleware(['auth', 'throttle:10,1'])->name('reservas.store');
 
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -50,7 +50,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 Route::middleware('auth')->group(function () {
     Route::get('/pagos', [PagoController::class, 'index'])->name('pagos.index');
     Route::get('/pagos/checkout/{reserva}', [PagoController::class, 'checkout'])->name('pagos.checkout');
-    Route::post('/pagos/procesar/{reserva}', [PagoController::class, 'procesar'])->name('pagos.procesar');
+    Route::post('/pagos/procesar/{reserva}', [PagoController::class, 'procesar'])->middleware('throttle:3,1')->name('pagos.procesar');
     Route::get('/pagos/exito/{reserva}', [PagoController::class, 'exito'])->name('pagos.exito');
 
     // Multimedia — cliente
