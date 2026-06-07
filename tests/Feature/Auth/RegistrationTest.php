@@ -3,6 +3,7 @@
 namespace Tests\Feature\Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class RegistrationTest extends TestCase
@@ -19,7 +20,7 @@ class RegistrationTest extends TestCase
     public function test_new_users_can_register(): void
     {
         // El RegisteredUserController asigna el rol 'cliente' al registrarse.
-        \Spatie\Permission\Models\Role::create(['name' => 'cliente', 'guard_name' => 'web']);
+        Role::create(['name' => 'cliente', 'guard_name' => 'web']);
 
         $response = $this->post('/register', [
             'name' => 'Test User',

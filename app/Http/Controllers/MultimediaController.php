@@ -36,10 +36,10 @@ class MultimediaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'archivo'      => 'required|file|mimes:jpg,jpeg,png,webp,mp4,mov|max:51200',
-            'id_reserva'   => 'required|exists:reservas,id',
-            'id_perro'     => 'required|exists:perros,id',
-            'descripcion'  => 'nullable|string|max:255',
+            'archivo' => 'required|file|mimes:jpg,jpeg,png,webp,mp4,mov|max:51200',
+            'id_reserva' => 'required|exists:reservas,id',
+            'id_perro' => 'required|exists:perros,id',
+            'descripcion' => 'nullable|string|max:255',
         ]);
 
         $reserva = Reserva::findOrFail($request->id_reserva);
@@ -54,11 +54,11 @@ class MultimediaController extends Controller
 
         Multimedia::create([
             'ruta_archivo' => $ruta,
-            'tipo'         => $tipo,
-            'descripcion'  => $request->descripcion,
-            'id_reserva'   => $idReserva,
-            'id_perro'     => $request->id_perro,
-            'subido_por'   => auth()->id(),
+            'tipo' => $tipo,
+            'descripcion' => $request->descripcion,
+            'id_reserva' => $idReserva,
+            'id_perro' => $request->id_perro,
+            'subido_por' => auth()->id(),
         ]);
 
         return redirect()->route('admin.multimedia')

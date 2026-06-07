@@ -21,8 +21,8 @@ class ReservaTest extends RinconcitoPerrunoTestCase
         ['cliente' => $cliente, 'perro' => $perro, 'servicio' => $servicio] = $this->crearCliente();
 
         Reserva::factory()->confirmada()->create([
-            'id_usuario'  => $cliente->id,
-            'id_perro'    => $perro->id,
+            'id_usuario' => $cliente->id,
+            'id_perro' => $perro->id,
             'id_servicio' => $servicio->id,
         ]);
 
@@ -40,16 +40,16 @@ class ReservaTest extends RinconcitoPerrunoTestCase
 
         $response = $this->post('/reservas', [
             'fecha_entrada' => now()->addDays(10)->toDateString(),
-            'fecha_salida'  => now()->addDays(12)->toDateString(),
-            'id_perro'      => $perro->id,
-            'id_servicio'   => $servicio->id,
+            'fecha_salida' => now()->addDays(12)->toDateString(),
+            'id_perro' => $perro->id,
+            'id_servicio' => $servicio->id,
         ]);
 
         $response->assertStatus(302);
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('reservas', [
             'id_perro' => $perro->id,
-            'estado'   => 'pendiente',
+            'estado' => 'pendiente',
         ]);
     }
 
@@ -57,9 +57,9 @@ class ReservaTest extends RinconcitoPerrunoTestCase
     {
         $response = $this->post('/reservas', [
             'fecha_entrada' => now()->addDays(10)->toDateString(),
-            'fecha_salida'  => now()->addDays(12)->toDateString(),
-            'id_perro'      => 1,
-            'id_servicio'   => 1,
+            'fecha_salida' => now()->addDays(12)->toDateString(),
+            'id_perro' => 1,
+            'id_servicio' => 1,
         ]);
 
         $response->assertRedirect('/login');
@@ -72,8 +72,8 @@ class ReservaTest extends RinconcitoPerrunoTestCase
         $response = $this->post('/reservas', [
             // Falta fecha_entrada
             'fecha_salida' => now()->addDays(12)->toDateString(),
-            'id_perro'     => $perro->id,
-            'id_servicio'  => $servicio->id,
+            'id_perro' => $perro->id,
+            'id_servicio' => $servicio->id,
         ]);
 
         $response->assertSessionHasErrors('fecha_entrada');
@@ -85,19 +85,19 @@ class ReservaTest extends RinconcitoPerrunoTestCase
 
         // Reserva confirmada que ocupa las fechas
         Reserva::factory()->confirmada()->create([
-            'id_usuario'    => $cliente->id,
-            'id_perro'      => $perro->id,
-            'id_servicio'   => $servicio->id,
+            'id_usuario' => $cliente->id,
+            'id_perro' => $perro->id,
+            'id_servicio' => $servicio->id,
             'fecha_entrada' => now()->addDays(7)->toDateString(),
-            'fecha_salida'  => now()->addDays(9)->toDateString(),
+            'fecha_salida' => now()->addDays(9)->toDateString(),
         ]);
 
         // Intento de reserva solapada
         $response = $this->post('/reservas', [
             'fecha_entrada' => now()->addDays(8)->toDateString(),
-            'fecha_salida'  => now()->addDays(10)->toDateString(),
-            'id_perro'      => $perro->id,
-            'id_servicio'   => $servicio->id,
+            'fecha_salida' => now()->addDays(10)->toDateString(),
+            'id_perro' => $perro->id,
+            'id_servicio' => $servicio->id,
         ]);
 
         // El ReservaController@store gestiona el conflicto con redirect()->back()
@@ -119,9 +119,9 @@ class ReservaTest extends RinconcitoPerrunoTestCase
 
         $response = $this->post('/reservas', [
             'fecha_entrada' => now()->addDays(10)->toDateString(),
-            'fecha_salida'  => now()->addDays(12)->toDateString(),
-            'id_perro'      => $perroAjeno->id,
-            'id_servicio'   => $servicio->id,
+            'fecha_salida' => now()->addDays(12)->toDateString(),
+            'id_perro' => $perroAjeno->id,
+            'id_servicio' => $servicio->id,
         ]);
 
         $response->assertForbidden();

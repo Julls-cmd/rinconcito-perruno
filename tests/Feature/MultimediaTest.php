@@ -41,22 +41,22 @@ class MultimediaTest extends RinconcitoPerrunoTestCase
         $perro = Perro::factory()->create(['id_usuario' => $cliente->id]);
         $servicio = Servicio::factory()->create();
         $reserva = Reserva::factory()->create([
-            'id_usuario'  => $cliente->id,
-            'id_perro'    => $perro->id,
+            'id_usuario' => $cliente->id,
+            'id_perro' => $perro->id,
             'id_servicio' => $servicio->id,
         ]);
 
         $response = $this->post('/multimedia', [
-            'archivo'     => UploadedFile::fake()->image('foto.jpg'),
-            'id_reserva'  => $reserva->id,
-            'id_perro'    => $perro->id,
+            'archivo' => UploadedFile::fake()->image('foto.jpg'),
+            'id_reserva' => $reserva->id,
+            'id_perro' => $perro->id,
             'descripcion' => 'Foto de prueba',
         ]);
 
         $response->assertStatus(302);
         $this->assertDatabaseHas('multimedia', [
             'id_perro' => $perro->id,
-            'tipo'     => 'foto',
+            'tipo' => 'foto',
         ]);
         $this->assertDatabaseHas('multimedia', ['subido_por' => $admin->id]);
 
@@ -69,9 +69,9 @@ class MultimediaTest extends RinconcitoPerrunoTestCase
         $this->crearCliente();
 
         $this->post('/multimedia', [
-            'archivo'    => UploadedFile::fake()->image('foto.jpg'),
+            'archivo' => UploadedFile::fake()->image('foto.jpg'),
             'id_reserva' => 1,
-            'id_perro'   => 1,
+            'id_perro' => 1,
         ])->assertForbidden();
     }
 

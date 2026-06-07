@@ -33,14 +33,14 @@ class FakeStripeHttpClient implements ClientInterface
         $id = $prefix.'_fake_'.bin2hex(random_bytes(8));
 
         $body = [
-            'id'            => $id,
-            'object'        => $object,
-            'status'        => 'succeeded',
+            'id' => $id,
+            'object' => $object,
+            'status' => 'succeeded',
             'client_secret' => $id.'_secret_fake',
-            'amount'        => 0,
-            'currency'      => 'eur',
-            'livemode'      => false,
-            'created'       => time(),
+            'amount' => 0,
+            'currency' => 'eur',
+            'livemode' => false,
+            'created' => time(),
         ];
 
         return [json_encode($body), 200, []];

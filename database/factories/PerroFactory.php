@@ -16,18 +16,18 @@ class PerroFactory extends Factory
     public function definition(): array
     {
         return [
-            'nombre'        => fake()->firstName(),
-            'raza'          => fake()->randomElement(['Labrador', 'Bulldog', 'Beagle', 'Pastor Alemán', 'Mestizo']),
-            'edad'          => fake()->numberBetween(1, 15),
-            'peso'          => fake()->randomFloat(2, 2, 45),
+            'nombre' => fake()->firstName(),
+            'raza' => fake()->randomElement(['Labrador', 'Bulldog', 'Beagle', 'Pastor Alemán', 'Mestizo']),
+            'edad' => fake()->numberBetween(1, 15),
+            'peso' => fake()->randomFloat(2, 2, 45),
             // ENUM temperamento: tranquilo, activo, agresivo, sociable
-            'temperamento'  => fake()->randomElement(['tranquilo', 'activo', 'agresivo', 'sociable']),
-            'vacunas'       => true,
-            'microchip'     => fake()->unique()->numerify('###########'),
+            'temperamento' => fake()->randomElement(['tranquilo', 'activo', 'agresivo', 'sociable']),
+            'vacunas' => true,
+            'microchip' => fake()->unique()->numerify('###########'),
             'observaciones' => fake()->optional()->sentence(),
-            'foto'          => null,
+            'foto' => null,
             // El id_usuario debe llegar vía state o ->for(User) / ->for(..., 'usuario')
-            'id_usuario'    => User::factory(),
+            'id_usuario' => User::factory(),
         ];
     }
 }

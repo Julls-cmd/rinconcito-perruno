@@ -15,12 +15,12 @@ class ServicioFactory extends Factory
     public function definition(): array
     {
         return [
-            'nombre'           => fake()->randomElement(['Guardería', 'Hospedaje', 'Paseo', 'Estética canina']),
-            'descripcion'      => fake()->sentence(),
-            'precio_base'      => fake()->randomFloat(2, 15, 50),
+            'nombre' => fake()->randomElement(['Guardería', 'Hospedaje', 'Paseo', 'Estética canina']),
+            'descripcion' => fake()->sentence(),
+            'precio_base' => fake()->randomFloat(2, 15, 50),
             'incluye_recogida' => fake()->boolean(),
             'incluye_estetica' => fake()->boolean(),
-            'activo'           => true,
+            'activo' => true,
         ];
     }
 }

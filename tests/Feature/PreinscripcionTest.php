@@ -13,10 +13,10 @@ class PreinscripcionTest extends RinconcitoPerrunoTestCase
     {
         return array_merge([
             'nombre_perro' => 'Toby',
-            'raza'         => 'Labrador',
-            'edad'         => 3,
-            'peso'         => 12.5,
-            'vacunas'      => 1,
+            'raza' => 'Labrador',
+            'edad' => 3,
+            'peso' => 12.5,
+            'vacunas' => 1,
             'temperamento' => 'sociable',
             'observaciones' => 'Muy juguetón',
         ], $overrides);
@@ -30,8 +30,8 @@ class PreinscripcionTest extends RinconcitoPerrunoTestCase
     public function test_visitante_puede_enviar_preinscripcion_con_datos_contacto(): void
     {
         $response = $this->post('/preinscripcion', $this->datosPerro([
-            'nombre_contacto'   => 'Ana García',
-            'email_contacto'    => 'ana@example.com',
+            'nombre_contacto' => 'Ana García',
+            'email_contacto' => 'ana@example.com',
             'telefono_contacto' => '600123456',
         ]));
 
@@ -39,7 +39,7 @@ class PreinscripcionTest extends RinconcitoPerrunoTestCase
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('preinscripciones', [
             'nombre_perro' => 'Toby',
-            'estado'       => 'pendiente',
+            'estado' => 'pendiente',
         ]);
     }
 
@@ -63,7 +63,7 @@ class PreinscripcionTest extends RinconcitoPerrunoTestCase
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('preinscripciones', [
             'nombre_perro' => 'Toby',
-            'estado'       => 'pendiente',
+            'estado' => 'pendiente',
         ]);
     }
 
@@ -71,7 +71,7 @@ class PreinscripcionTest extends RinconcitoPerrunoTestCase
     {
         $this->post('/preinscripcion', $this->datosPerro([
             'nombre_contacto' => 'Ana García',
-            'email_contacto'  => 'ana@example.com',
+            'email_contacto' => 'ana@example.com',
         ]));
 
         $this->assertDatabaseHas('preinscripciones', ['estado' => 'pendiente']);
@@ -86,7 +86,7 @@ class PreinscripcionTest extends RinconcitoPerrunoTestCase
         $this->post("/admin/preinscripciones/{$preinscripcion->id}/aprobar");
 
         $this->assertDatabaseHas('preinscripciones', [
-            'id'     => $preinscripcion->id,
+            'id' => $preinscripcion->id,
             'estado' => 'aprobada',
         ]);
     }
@@ -100,7 +100,7 @@ class PreinscripcionTest extends RinconcitoPerrunoTestCase
         $this->post("/admin/preinscripciones/{$preinscripcion->id}/rechazar");
 
         $this->assertDatabaseHas('preinscripciones', [
-            'id'     => $preinscripcion->id,
+            'id' => $preinscripcion->id,
             'estado' => 'rechazada',
         ]);
     }

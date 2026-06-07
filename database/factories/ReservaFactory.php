@@ -18,15 +18,15 @@ class ReservaFactory extends Factory
     public function definition(): array
     {
         return [
-            'fecha_entrada'      => now()->addDays(7)->toDateString(),
-            'fecha_salida'       => now()->addDays(9)->toDateString(),
+            'fecha_entrada' => now()->addDays(7)->toDateString(),
+            'fecha_salida' => now()->addDays(9)->toDateString(),
             // ENUM estado: pendiente, confirmada, en_curso, finalizada, cancelada
-            'estado'             => 'pendiente',
+            'estado' => 'pendiente',
             'direccion_recogida' => null,
-            'notas'              => null,
-            'id_usuario'         => User::factory(),
-            'id_perro'           => Perro::factory(),
-            'id_servicio'        => Servicio::factory(),
+            'notas' => null,
+            'id_usuario' => User::factory(),
+            'id_perro' => Perro::factory(),
+            'id_servicio' => Servicio::factory(),
         ];
     }
 

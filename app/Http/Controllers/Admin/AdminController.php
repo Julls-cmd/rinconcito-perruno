@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Perro;
 use App\Models\Preinscripcion;
 use App\Models\Reserva;
 use App\Models\User;
-use App\Models\Perro;
 
 class AdminController extends Controller
 {
@@ -39,6 +39,7 @@ class AdminController extends Controller
     public function preinscripciones()
     {
         $preinscripciones = Preinscripcion::orderBy('created_at', 'desc')->paginate(10);
+
         return view('admin.preinscripciones', compact('preinscripciones'));
     }
 
@@ -49,6 +50,7 @@ class AdminController extends Controller
         }
 
         $preinscripcion->update(['estado' => 'aprobada']);
+
         return redirect()->back()->with('success', 'Preinscripción aprobada correctamente.');
     }
 
@@ -59,6 +61,7 @@ class AdminController extends Controller
         }
 
         $preinscripcion->update(['estado' => 'rechazada']);
+
         return redirect()->back()->with('success', 'Preinscripción rechazada.');
     }
 
@@ -67,6 +70,7 @@ class AdminController extends Controller
         $reservas = Reserva::with(['usuario', 'perro', 'servicio'])
             ->orderBy('created_at', 'desc')
             ->paginate(10);
+
         return view('admin.reservas', compact('reservas'));
     }
 
@@ -77,22 +81,25 @@ class AdminController extends Controller
         }
 
         $reserva->update(['estado' => 'confirmada']);
+
         return redirect()->back()->with('success', 'Reserva confirmada correctamente.');
     }
 
     public function cancelarReserva(Reserva $reserva)
     {
-        if (!in_array($reserva->estado, ['pendiente', 'confirmada'])) {
+        if (! in_array($reserva->estado, ['pendiente', 'confirmada'])) {
             return redirect()->back()->with('error', 'Esta reserva no se puede cancelar en su estado actual.');
         }
 
         $reserva->update(['estado' => 'cancelada']);
+
         return redirect()->back()->with('success', 'Reserva cancelada.');
     }
 
     public function usuarios()
     {
         $usuarios = User::role('cliente')->with('perros')->paginate(10);
+
         return view('admin.usuarios', compact('usuarios'));
     }
 }

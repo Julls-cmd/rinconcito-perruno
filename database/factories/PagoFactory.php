@@ -16,15 +16,15 @@ class PagoFactory extends Factory
     public function definition(): array
     {
         return [
-            'importe'           => 36.00,
+            'importe' => 36.00,
             // ENUM metodo: tarjeta, efectivo, transferencia
-            'metodo'            => 'tarjeta',
+            'metodo' => 'tarjeta',
             // ENUM estado: pendiente, completado, fallido, reembolsado
-            'estado'            => 'completado',
+            'estado' => 'completado',
             'stripe_payment_id' => 'pi_'.fake()->unique()->bothify('############'),
-            'fecha_pago'        => now(),
-            'id_reserva'        => Reserva::factory(),
-            'id_bono'           => null,
+            'fecha_pago' => now(),
+            'id_reserva' => Reserva::factory(),
+            'id_bono' => null,
         ];
     }
 }

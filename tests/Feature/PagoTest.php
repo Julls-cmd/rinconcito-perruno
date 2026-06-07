@@ -32,11 +32,11 @@ class PagoTest extends RinconcitoPerrunoTestCase
 
         // 2 noches × 18€ = 36€
         $reserva = Reserva::factory()->create([
-            'id_usuario'    => $cliente->id,
-            'id_perro'      => $perro->id,
-            'id_servicio'   => $servicio->id,
+            'id_usuario' => $cliente->id,
+            'id_perro' => $perro->id,
+            'id_servicio' => $servicio->id,
             'fecha_entrada' => now()->addDays(5)->toDateString(),
-            'fecha_salida'  => now()->addDays(7)->toDateString(),
+            'fecha_salida' => now()->addDays(7)->toDateString(),
         ]);
 
         $this->get('/pagos/checkout/'.$reserva->id)
@@ -52,8 +52,8 @@ class PagoTest extends RinconcitoPerrunoTestCase
         $perroAjeno = Perro::factory()->create(['id_usuario' => $otroUsuario->id]);
         $servicio = Servicio::factory()->create();
         $reservaAjena = Reserva::factory()->create([
-            'id_usuario'  => $otroUsuario->id,
-            'id_perro'    => $perroAjeno->id,
+            'id_usuario' => $otroUsuario->id,
+            'id_perro' => $perroAjeno->id,
             'id_servicio' => $servicio->id,
         ]);
 
@@ -65,14 +65,14 @@ class PagoTest extends RinconcitoPerrunoTestCase
         ['cliente' => $cliente, 'perro' => $perro, 'servicio' => $servicio] = $this->crearCliente();
 
         $reserva = Reserva::factory()->create([
-            'id_usuario'  => $cliente->id,
-            'id_perro'    => $perro->id,
+            'id_usuario' => $cliente->id,
+            'id_perro' => $perro->id,
             'id_servicio' => $servicio->id,
         ]);
 
         Pago::factory()->create([
             'id_reserva' => $reserva->id,
-            'estado'     => 'completado',
+            'estado' => 'completado',
         ]);
 
         $this->get('/pagos/exito/'.$reserva->id)->assertOk();

@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('telefono', 15)->nullable();
-$table->string('direccion', 255)->nullable();
-$table->string('ciudad', 100)->nullable();
-$table->string('codigo_postal', 10)->nullable();
+            $table->string('direccion', 255)->nullable();
+            $table->string('ciudad', 100)->nullable();
+            $table->string('codigo_postal', 10)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

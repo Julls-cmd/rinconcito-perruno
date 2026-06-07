@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Empleado extends Model
 {
@@ -24,7 +24,7 @@ class Empleado extends Model
     public function reservas()
     {
         return $this->belongsToMany(Reserva::class, 'reservas_empleados', 'id_empleado', 'id_reserva')
-                    ->withPivot('rol_en_reserva')
-                    ->withTimestamps();
+            ->withPivot('rol_en_reserva')
+            ->withTimestamps();
     }
 }

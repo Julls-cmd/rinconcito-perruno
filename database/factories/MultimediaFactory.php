@@ -19,12 +19,12 @@ class MultimediaFactory extends Factory
         return [
             'ruta_archivo' => 'multimedia/test.jpg',
             // ENUM tipo: foto, video
-            'tipo'         => 'foto',
-            'descripcion'  => fake()->optional()->sentence(),
+            'tipo' => 'foto',
+            'descripcion' => fake()->optional()->sentence(),
             // En el esquema id_reserva es obligatorio; se autogenera si no se pasa.
-            'id_reserva'   => Reserva::factory(),
-            'id_perro'     => Perro::factory(),
-            'subido_por'   => null,
+            'id_reserva' => Reserva::factory(),
+            'id_perro' => Perro::factory(),
+            'subido_por' => null,
         ];
     }
 }

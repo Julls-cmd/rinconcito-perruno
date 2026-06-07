@@ -1,21 +1,20 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
-use App\Models\Servicio;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\PreinscripcionController;
-use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\PagoController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MultimediaController;
+use App\Http\Controllers\PagoController;
+use App\Http\Controllers\PreinscripcionController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReservaController;
+use App\Models\Servicio;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $servicios = Servicio::where('activo', true)->get();
+
     return view('welcome', compact('servicios'));
 });
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -33,7 +32,6 @@ Route::post('/preinscripcion', [PreinscripcionController::class, 'store'])->midd
 Route::get('/disponibilidad', [ReservaController::class, 'index'])->middleware('auth')->name('reservas.index');
 Route::get('/disponibilidad/eventos', [ReservaController::class, 'disponibilidad'])->name('reservas.disponibilidad');
 Route::post('/reservas', [ReservaController::class, 'store'])->middleware(['auth', 'throttle:10,1'])->name('reservas.store');
-
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('index');

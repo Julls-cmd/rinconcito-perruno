@@ -32,7 +32,7 @@ abstract class RinconcitoPerrunoTestCase extends TestCase
         $this->withoutVite();
 
         // Ninguna llamada a Stripe debe salir a la red durante los tests.
-        ApiRequestor::setHttpClient(new FakeStripeHttpClient());
+        ApiRequestor::setHttpClient(new FakeStripeHttpClient);
 
         // Limpiar caché de permisos de Spatie entre tests.
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
