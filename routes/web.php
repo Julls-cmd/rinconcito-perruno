@@ -30,7 +30,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 Route::get('/preinscripcion', [PreinscripcionController::class, 'create'])->name('preinscripcion.create');
 Route::post('/preinscripcion', [PreinscripcionController::class, 'store'])->middleware('throttle:5,1')->name('preinscripcion.store');
 
-Route::get('/disponibilidad', [ReservaController::class, 'index'])->name('reservas.index');
+Route::get('/disponibilidad', [ReservaController::class, 'index'])->middleware('auth')->name('reservas.index');
 Route::get('/disponibilidad/eventos', [ReservaController::class, 'disponibilidad'])->name('reservas.disponibilidad');
 Route::post('/reservas', [ReservaController::class, 'store'])->middleware(['auth', 'throttle:10,1'])->name('reservas.store');
 
