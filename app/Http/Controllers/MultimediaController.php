@@ -46,8 +46,8 @@ class MultimediaController extends Controller
         $idReserva = $reserva->id;
 
         $archivo = $request->file('archivo');
-        $extension = $archivo->getClientOriginalExtension();
-        $tipo = in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? 'foto' : 'video';
+        $mimeType = $archivo->getMimeType();
+        $tipo = str_starts_with($mimeType, 'image/') ? 'foto' : 'video';
 
         // Guardar en storage/app/public/multimedia/{id_reserva}/
         $ruta = $archivo->store("multimedia/{$idReserva}", 'public');
