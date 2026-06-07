@@ -45,6 +45,12 @@ class ReservaController extends Controller
             'notas'         => ['nullable', 'string', 'max:500'],
         ]);
 
+        // Seguridad: el perro debe pertenecer al usuario autenticado (evita IDOR)
+        $perro = Perro::findOrFail($request->id_perro);
+        if ($perro->id_usuario !== Auth::id()) {
+            abort(403, 'Este perro no te pertenece.');
+        }
+
         // Verificar disponibilidad
         $conflicto = Reserva::whereIn('estado', ['confirmada', 'en_curso', 'pendiente'])
             ->where(function ($query) use ($request) {
