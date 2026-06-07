@@ -211,6 +211,7 @@
                                 </svg>
                                 <strong>{{ $item->perro->nombre ?? '—' }}</strong>
                             </div>
+                            <p class="media-fecha-admin">Subido por: {{ $item->subidoPor->name ?? 'Admin' }}</p>
                             @if($item->descripcion)
                                 <p class="media-desc-admin">{{ Str::limit($item->descripcion, 60) }}</p>
                             @endif

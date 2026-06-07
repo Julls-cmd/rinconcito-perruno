@@ -6,8 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Guardería canina en Trebujena, Cádiz. Recogida a domicilio, cámaras 24h y estética integrada.">
     <title>Rinconcito Perruno — Guardería Canina en Trebujena</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-    @vite(['resources/css/app.css', 'resources/css/landing.css', 'resources/js/app.js', 'resources/js/landing.js'])
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap"
+          rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"></noscript>
+    @vite(['resources/css/landing.css', 'resources/js/landing.js'])
 </head>
 <body>
 
@@ -15,7 +19,7 @@
 <header>
     <nav class="navbar" aria-label="Navegación principal">
         <a href="/" class="navbar-logo">
-            <img src="{{ asset('images/logo.jpeg') }}" alt="Logo Rinconcito Perruno" class="navbar-logo-img">
+            <img src="{{ asset('images/logo.jpeg') }}" alt="Logo Rinconcito Perruno" class="navbar-logo-img" width="44" height="44" decoding="async">
             Rinconcito Perruno
         </a>
         <ul class="navbar-links">
@@ -62,7 +66,7 @@
         </div>
         <div class="hero-image">
             <div class="hero-circle">
-                <img src="{{ asset('images/logo.jpeg') }}" alt="Logo Rinconcito Perruno" class="hero-logo-img">
+                <img src="{{ asset('images/logo.jpeg') }}" alt="Logo Rinconcito Perruno" class="hero-logo-img" width="280" height="280" decoding="async" fetchpriority="high">
             </div>
             <div class="hero-badge-float float-1">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
@@ -254,7 +258,7 @@
     <footer class="footer">
         <div class="footer-inner">
             <div class="footer-logo">
-                <img src="{{ asset('images/logo.jpeg') }}" alt="Logo Rinconcito Perruno" class="footer-logo-img">
+                <img src="{{ asset('images/logo.jpeg') }}" alt="Logo Rinconcito Perruno" class="footer-logo-img" width="32" height="32" decoding="async" loading="lazy">
                 Rinconcito Perruno
             </div>
             <nav class="footer-links" aria-label="Enlaces legales">

@@ -26,8 +26,8 @@ class Multimedia extends Model
         return $this->belongsTo(Perro::class, 'id_perro');
     }
 
-    public function empleado()
+    public function subidoPor()
     {
-        return $this->belongsTo(Empleado::class, 'subido_por');
+        return $this->belongsTo(User::class, 'subido_por');
     }
 }

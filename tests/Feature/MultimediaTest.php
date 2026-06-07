@@ -58,6 +58,7 @@ class MultimediaTest extends RinconcitoPerrunoTestCase
             'id_perro' => $perro->id,
             'tipo'     => 'foto',
         ]);
+        $this->assertDatabaseHas('multimedia', ['subido_por' => $admin->id]);
 
         $registro = Multimedia::first();
         Storage::disk('public')->assertExists($registro->ruta_archivo);

@@ -22,7 +22,7 @@ class MultimediaController extends Controller
             abort(403, 'No tienes permiso para ver este contenido.');
         }
 
-        $multimedia = Multimedia::with(['reserva', 'empleado'])
+        $multimedia = Multimedia::with(['reserva', 'subidoPor'])
             ->where('id_perro', $perro->id)
             ->orderBy('created_at', 'desc')
             ->get();
@@ -58,7 +58,7 @@ class MultimediaController extends Controller
             'descripcion'  => $request->descripcion,
             'id_reserva'   => $idReserva,
             'id_perro'     => $request->id_perro,
-            'subido_por'   => null, // FK → empleados, el admin es un User independiente
+            'subido_por'   => auth()->id(),
         ]);
 
         return redirect()->route('admin.multimedia')
@@ -92,7 +92,7 @@ class MultimediaController extends Controller
             ->get();
 
         // Toda la multimedia ordenada por más reciente, con sus relaciones
-        $multimedia = Multimedia::with(['perro', 'reserva', 'empleado'])
+        $multimedia = Multimedia::with(['perro', 'reserva', 'subidoPor'])
             ->orderBy('created_at', 'desc')
             ->get();
 
