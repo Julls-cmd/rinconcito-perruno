@@ -89,12 +89,12 @@ class MultimediaController extends Controller
         // Todas las reservas con su perro y usuario para el select del formulario
         $reservas = Reserva::with(['perro', 'usuario'])
             ->orderBy('fecha_entrada', 'desc')
-            ->get();
+            ->paginate(20);
 
         // Toda la multimedia ordenada por más reciente, con sus relaciones
         $multimedia = Multimedia::with(['perro', 'reserva', 'subidoPor'])
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(20);
 
         return view('admin.multimedia', compact('reservas', 'multimedia'));
     }

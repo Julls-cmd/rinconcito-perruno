@@ -240,6 +240,8 @@
                     @endforeach
                 </div>
             @endif
+
+            {{ $multimedia->links() }}
         </div>
 
     </main>
