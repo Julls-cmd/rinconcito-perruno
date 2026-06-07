@@ -7,6 +7,7 @@ use App\Models\Reserva;
 use App\Models\Pago;
 use App\Models\Bono;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Stripe\StripeClient;
 
 class PagoController extends Controller
@@ -151,8 +152,13 @@ class PagoController extends Controller
             return redirect()->route('pagos.exito', $reserva->id);
 
         } catch (\Exception $e) {
+            Log::error('Error en pago de reserva #' . $reserva->id, [
+                'exception' => $e->getMessage(),
+                'user_id'   => Auth::id(),
+            ]);
+
             return redirect()->back()
-                ->with('error', 'Error al procesar el pago: ' . $e->getMessage())
+                ->with('error', 'Ha ocurrido un error al procesar el pago. Por favor, inténtalo de nuevo o contacta con soporte.')
                 ->withInput();
         }
     }
