@@ -159,6 +159,10 @@ class PagoController extends Controller
 
     public function exito(Reserva $reserva)
     {
+        if ($reserva->id_usuario !== Auth::id()) {
+            abort(403);
+        }
+
         $pago = Pago::where('id_reserva', $reserva->id)->first();
         return view('pagos.exito', compact('reserva', 'pago'));
     }
