@@ -52,6 +52,11 @@ class PagoController extends Controller
             ],
         ]);
 
+        session(['checkout_' . $reserva->id => [
+            'bono_id' => $bono?->id,
+            'total'   => $total,
+        ]]);
+
         return view('pagos.checkout', compact('reserva', 'total', 'precioBase', 'descuento', 'bono', 'intent', 'noches'));
     }
 
@@ -65,6 +70,16 @@ class PagoController extends Controller
             return redirect()->route('pagos.exito', $reserva->id);
         }
 
+        $checkoutData = session('checkout_' . $reserva->id);
+
+        if (!$checkoutData) {
+            return redirect()->route('pagos.checkout', $reserva->id)
+                ->with('error', 'La sesión de pago ha expirado. Por favor, inicia el proceso de nuevo.');
+        }
+
+        $total  = $checkoutData['total'];
+        $bonoId = $checkoutData['bono_id'];
+
         $request->validate([
             'payment_method' => ['required', 'string'],
         ]);
@@ -72,9 +87,7 @@ class PagoController extends Controller
         $noches = $reserva->fecha_entrada->diffInDays($reserva->fecha_salida);
         $precioBase = $noches * $reserva->servicio->precio_base;
 
-        [$descuento, $bono] = $this->calcularDescuento($precioBase, $request->bono_id);
-
-        $total = max(0.50, $precioBase - $descuento);
+        [, $bono] = $this->calcularDescuento($precioBase, $bonoId);
 
         try {
             $usuario = Auth::user();
@@ -126,6 +139,8 @@ class PagoController extends Controller
 
                 $reserva->update(['estado' => 'confirmada']);
             });
+
+            session()->forget('checkout_' . $reserva->id);
 
             return redirect()->route('pagos.exito', $reserva->id);
 
