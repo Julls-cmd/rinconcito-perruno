@@ -41,28 +41,7 @@ class PagoController extends Controller
         $noches = $reserva->fecha_entrada->diffInDays($reserva->fecha_salida);
         $precioBase = $noches * $servicios->precio_base;
 
-        $descuento = 0;
-        $bono = null;
-
-        if ($request->bono_id) {
-            $bono = Bono::where('id', $request->bono_id)
-                        ->where('id_usuario', Auth::id())
-                        ->where('activo', true)
-                        ->where('usos_restantes', '>', 0)
-                        ->where(function ($q) {
-                            $q->whereNull('fecha_expiracion')
-                              ->orWhere('fecha_expiracion', '>', now());
-                        })
-                        ->first();
-
-            if ($bono) {
-                if ($bono->descuento_porcentaje > 0) {
-                    $descuento = $precioBase * ($bono->descuento_porcentaje / 100);
-                } else {
-                    $descuento = $bono->descuento_fijo;
-                }
-            }
-        }
+        [$descuento, $bono] = $this->calcularDescuento($precioBase, $request->bono_id);
 
         $total = max(0, $precioBase - $descuento);
         $intent = Auth::user()->createSetupIntent([
@@ -88,28 +67,7 @@ class PagoController extends Controller
         $noches = $reserva->fecha_entrada->diffInDays($reserva->fecha_salida);
         $precioBase = $noches * $reserva->servicio->precio_base;
 
-        $descuento = 0;
-        $bono = null;
-
-        if ($request->bono_id) {
-            $bono = Bono::where('id', $request->bono_id)
-                        ->where('id_usuario', Auth::id())
-                        ->where('activo', true)
-                        ->where('usos_restantes', '>', 0)
-                        ->where(function ($q) {
-                            $q->whereNull('fecha_expiracion')
-                              ->orWhere('fecha_expiracion', '>', now());
-                        })
-                        ->first();
-
-            if ($bono) {
-                if ($bono->descuento_porcentaje > 0) {
-                    $descuento = $precioBase * ($bono->descuento_porcentaje / 100);
-                } else {
-                    $descuento = $bono->descuento_fijo;
-                }
-            }
-        }
+        [$descuento, $bono] = $this->calcularDescuento($precioBase, $request->bono_id);
 
         $total = max(0.50, $precioBase - $descuento);
 
@@ -179,5 +137,31 @@ class PagoController extends Controller
 
         $pago = Pago::where('id_reserva', $reserva->id)->first();
         return view('pagos.exito', compact('reserva', 'pago'));
+    }
+
+    private function calcularDescuento(float $precioBase, ?int $bonoId): array
+    {
+        $descuento = 0;
+        $bono = null;
+
+        if ($bonoId) {
+            $bono = Bono::where('id', $bonoId)
+                        ->where('id_usuario', Auth::id())
+                        ->where('activo', true)
+                        ->where('usos_restantes', '>', 0)
+                        ->where(function ($q) {
+                            $q->whereNull('fecha_expiracion')
+                              ->orWhere('fecha_expiracion', '>', now());
+                        })
+                        ->first();
+
+            if ($bono) {
+                $descuento = $bono->descuento_porcentaje > 0
+                    ? $precioBase * ($bono->descuento_porcentaje / 100)
+                    : $bono->descuento_fijo;
+            }
+        }
+
+        return [$descuento, $bono];
     }
 }
