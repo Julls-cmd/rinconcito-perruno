@@ -1,58 +1,117 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Rinconcito Perruno 🐾
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplicación web de gestión para una guardería canina, desarrollada como Trabajo de Fin de Grado (TFG) sobre **Laravel 13.8**. Permite a los clientes reservar plazas para sus perros, pagar online mediante **Stripe** (Laravel Cashier), gestionar bonos de descuento y consultar la galería multimedia de cada estancia. Incluye un panel de administración completo con control de **roles** (`admin` / `cliente`), gestión de reservas, preinscripciones y usuarios.
 
-## About Laravel
+## Stack tecnológico
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+| Tecnología | Versión exacta | Función |
+|---|---|---|
+| PHP | 8.3.30 | Lenguaje del backend |
+| Laravel | ^13.8 | Framework principal |
+| MySQL | 8.4 | Base de datos relacional |
+| Node.js / Vite | ^8.0.0 | Build de assets frontend |
+| Tailwind CSS | ^3.1.0 | Framework de estilos |
+| Alpine.js | ^3.4.2 | Interactividad ligera (dropdowns, modales) |
+| FullCalendar | 6.1.10 | Calendario de disponibilidad de reservas |
+| Stripe / Laravel Cashier | ^16.5 | Pagos online y gestión de clientes Stripe |
+| Spatie Laravel Permission | ^7.4 | Roles y permisos (`admin`, `cliente`) |
+| PHPUnit | ^12.5.12 | Suite de tests |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Requisitos previos
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP >= 8.3
+- MySQL 8.x
+- Node.js >= 18
+- Composer
+- Laragon (recomendado para Windows)
 
-## Learning Laravel
+## Instalación paso a paso
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. Clonar el repositorio
+2. `cp .env.example .env` y rellenar variables (DB, Stripe)
+3. `composer install`
+4. `php artisan key:generate`
+5. Crear BD `rinconcito_perruno` en MySQL
+6. `php artisan migrate --seed`
+7. `php artisan storage:link`
+8. `npm install && npm run build`
+9. `php artisan serve --port=8000`
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Credenciales de prueba
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+| Rol | Email | Contraseña |
+|-----|-------|-----------|
+| Admin | admin@rinconcitoperruno.es | password |
+| Cliente | cliente@ejemplo.es | password |
 
-## Agentic Development
+## Estructura del proyecto
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+```
+rinconcito-perruno/
+├── app/        → Controladores, modelos Eloquent y providers (lógica de negocio)
+├── database/   → Migraciones, seeders y factories
+├── resources/  → Vistas Blade y assets CSS/JS (Tailwind, Alpine, FullCalendar)
+├── routes/     → Definición de rutas web (web.php) y de autenticación (auth.php)
+├── tests/      → Suite de tests Feature y Unit (PHPUnit)
+└── public/     → Punto de entrada de la aplicación y assets compilados por Vite
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## Tests
 
-## Contributing
+Resultado de la suite completa:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```
+Tests: 55 passed (113 assertions) — 100% en verde
+```
 
-## Code of Conduct
+Grupos de tests de dominio:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+| Grupo | Nº de tests |
+|-------|-------------|
+| `PagoTest` | 5 |
+| `ReservaTest` | 7 |
+| `PreinscripcionTest` | 8 |
+| `MultimediaTest` | 6 |
+| `BonoTest` (Unit) | 4 |
 
-## Security Vulnerabilities
+Comando para ejecutarlos:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+php artisan test
+```
 
-## License
+## Arquitectura de seguridad
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- **IDOR resuelto** — verificación de propiedad (`id_usuario`/`id_perro`) antes de acceder a reservas, pagos, perros y multimedia ajenos
+- **Throttle en rutas críticas** — limitación de peticiones en preinscripciones, reservas y procesado de pagos
+- **`DB::transaction` + `lockForUpdate`** — bloqueo pesimista al verificar disponibilidad y al procesar pagos, evitando condiciones de carrera y dobles reservas
+- **Idempotency key de Stripe** — cada intento de pago usa una clave única (`pago_reserva_{id}`) para prevenir cobros duplicados ante reintentos
+- **Precio vinculado en sesión** — el importe y el bono mostrados en el checkout se guardan en sesión y se reutilizan al procesar el pago, evitando que el cliente manipule el `bono_id` enviado por el formulario
+- **`abort(403)` por propiedad** — comprobación explícita de pertenencia del recurso al usuario autenticado en cada controlador sensible
+
+## Sostenibilidad y rendimiento
+
+- Lighthouse Performance: **99/100** (SEO: 100, Best Practices: 100)
+- Assets minificados con Vite
+- Fuentes cargadas de forma no bloqueante
+- Consultas con eager loading (sin problemas N+1)
+
+Alineación con los Objetivos de Desarrollo Sostenible (ODS):
+- **ODS 8** (Trabajo decente y crecimiento económico) — digitalización de la gestión de una PYME del sector servicios
+- **ODS 12** (Producción y consumo responsables) — gestión eficiente de recursos mediante la optimización del calendario de reservas
+
+## Mejoras futuras
+
+1. Extraer la lógica de negocio de los controladores a clases `Services`/`Actions`
+2. Implementar el CRUD completo de empleados
+3. Integrar webhooks de Stripe para sincronizar el estado de los pagos en tiempo real
+4. Exponer una API REST autenticada con Laravel Sanctum
+5. Configurar CI/CD y despliegue automatizado en un VPS
+
+## Manual de despliegue (producción)
+
+1. Configurar `.env` con `APP_ENV=production` y `APP_DEBUG=false`
+2. Ejecutar `php artisan config:cache`
+3. Ejecutar `php artisan route:cache`
+4. Compilar assets con `npm run build`
+5. Configurar el servidor web (Apache/Nginx) apuntando al directorio `/public`
