@@ -125,8 +125,8 @@
 </div>
 
 <script>
-    const stripeKey = "{{ config('cashier.key') }}";
-    const clientSecret = "{{ $intent->client_secret }}";
+    const stripeKey = @json(config('cashier.key'));
+    const clientSecret = @json($intent->client_secret);
 </script>
 <script src="{{ asset('js/checkout.js') }}"></script>
 
