@@ -6,6 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Guardería canina en Trebujena, Cádiz. Recogida a domicilio, cámaras 24h y estética integrada.">
     <title>Rinconcito Perruno — Guardería Canina en Trebujena</title>
+    <meta name="description" content="Rinconcito Perruno — Guardería canina en Trebujena con cámaras 24h, recogida a domicilio y estética integral.">
+    <meta property="og:title" content="Rinconcito Perruno ">
+    <meta property="og:description" content="Guardería canina con cámaras 24h, recogida a domicilio e instalaciones premium. Tu perro en las mejores manos.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ config('app.url') }}">
+    <meta property="og:locale" content="es_ES">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Rinconcito Perruno ">
+    <meta name="twitter:description" content="Guardería canina premium en Trebujena.">
+    <link rel="canonical" href="{{ config('app.url') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap"
