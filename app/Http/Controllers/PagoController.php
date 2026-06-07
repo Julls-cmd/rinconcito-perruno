@@ -7,6 +7,7 @@ use App\Models\Reserva;
 use App\Models\Pago;
 use App\Models\Bono;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Stripe\StripeClient;
 
@@ -60,6 +61,10 @@ class PagoController extends Controller
             abort(403);
         }
 
+        if ($reserva->pago()->exists()) {
+            return redirect()->route('pagos.exito', $reserva->id);
+        }
+
         $request->validate([
             'payment_method' => ['required', 'string'],
         ]);
@@ -74,46 +79,53 @@ class PagoController extends Controller
         try {
             $usuario = Auth::user();
 
-            // Crear o recuperar cliente en Stripe
-            $usuario->createOrGetStripeCustomer();
+            DB::transaction(function () use ($request, $reserva, $usuario, $total, $bono) {
+                // 1. Crear pago como pendiente ANTES de cobrar
+                $pago = Pago::create([
+                    'importe'    => $total,
+                    'metodo'     => 'tarjeta',
+                    'estado'     => 'pendiente',
+                    'fecha_pago' => now(),
+                    'id_reserva' => $reserva->id,
+                    'id_bono'    => $bono?->id,
+                ]);
 
-            // Adjuntar el payment method al cliente
-            $usuario->addPaymentMethod($request->payment_method);
+                // 2. Operaciones Stripe
+                $usuario->createOrGetStripeCustomer();
+                $usuario->addPaymentMethod($request->payment_method);
 
-            // Crear PaymentIntent manualmente
-            $stripe = new StripeClient(config('cashier.secret'));
+                $stripe = new StripeClient(config('cashier.secret'));
+                $paymentIntent = $stripe->paymentIntents->create([
+                    'amount'         => (int) round($total * 100),
+                    'currency'       => 'eur',
+                    'customer'       => $usuario->stripe_id,
+                    'payment_method' => $request->payment_method,
+                    'description'    => 'Reserva Rinconcito Perruno — ' . $reserva->perro->nombre,
+                    'confirm'        => true,
+                    'automatic_payment_methods' => [
+                        'enabled'         => true,
+                        'allow_redirects' => 'never',
+                    ],
+                ], [
+                    'idempotency_key' => 'pago_reserva_' . $reserva->id,
+                ]);
 
-            $paymentIntent = $stripe->paymentIntents->create([
-                'amount'         => (int) round($total * 100),
-                'currency'       => 'eur',
-                'customer'       => $usuario->stripe_id,
-                'payment_method' => $request->payment_method,
-                'description'    => 'Reserva Rinconcito Perruno — ' . $reserva->perro->nombre,
-                'confirm'        => true,
-                'automatic_payment_methods' => [
-                    'enabled'         => true,
-                    'allow_redirects' => 'never',
-                ],
-            ]);
+                // 3. Actualizar pago a completado
+                $pago->update([
+                    'estado'            => 'completado',
+                    'stripe_payment_id' => $paymentIntent->id,
+                ]);
 
-            Pago::create([
-                'importe'           => $total,
-                'metodo'            => 'tarjeta',
-                'estado'            => 'completado',
-                'stripe_payment_id' => $paymentIntent->id,
-                'fecha_pago'        => now(),
-                'id_reserva'        => $reserva->id,
-                'id_bono'           => $bono?->id,
-            ]);
-
-            if ($bono) {
-                $bono->decrement('usos_restantes');
-                if ($bono->usos_restantes <= 0) {
-                    $bono->update(['activo' => false]);
+                // 4. Bono y reserva (igual que ahora)
+                if ($bono) {
+                    $bono->decrement('usos_restantes');
+                    if ($bono->usos_restantes <= 0) {
+                        $bono->update(['activo' => false]);
+                    }
                 }
-            }
 
-            $reserva->update(['estado' => 'confirmada']);
+                $reserva->update(['estado' => 'confirmada']);
+            });
 
             return redirect()->route('pagos.exito', $reserva->id);
 
