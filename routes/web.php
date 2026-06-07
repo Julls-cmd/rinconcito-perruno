@@ -38,11 +38,11 @@ Route::post('/reservas', [ReservaController::class, 'store'])->middleware(['auth
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('index');
     Route::get('/preinscripciones', [AdminController::class, 'preinscripciones'])->name('preinscripciones');
-    Route::post('/preinscripciones/{id}/aprobar', [AdminController::class, 'aprobarPreinscripcion'])->name('preinscripciones.aprobar');
-    Route::post('/preinscripciones/{id}/rechazar', [AdminController::class, 'rechazarPreinscripcion'])->name('preinscripciones.rechazar');
+    Route::post('/preinscripciones/{preinscripcion}/aprobar', [AdminController::class, 'aprobarPreinscripcion'])->name('preinscripciones.aprobar');
+    Route::post('/preinscripciones/{preinscripcion}/rechazar', [AdminController::class, 'rechazarPreinscripcion'])->name('preinscripciones.rechazar');
     Route::get('/reservas', [AdminController::class, 'reservas'])->name('reservas');
-    Route::post('/reservas/{id}/confirmar', [AdminController::class, 'confirmarReserva'])->name('reservas.confirmar');
-    Route::post('/reservas/{id}/cancelar', [AdminController::class, 'cancelarReserva'])->name('reservas.cancelar');
+    Route::post('/reservas/{reserva}/confirmar', [AdminController::class, 'confirmarReserva'])->name('reservas.confirmar');
+    Route::post('/reservas/{reserva}/cancelar', [AdminController::class, 'cancelarReserva'])->name('reservas.cancelar');
     Route::get('/usuarios', [AdminController::class, 'usuarios'])->name('usuarios');
     Route::get('/multimedia', [MultimediaController::class, 'adminIndex'])->name('multimedia');
 });

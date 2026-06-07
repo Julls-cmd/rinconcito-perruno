@@ -42,10 +42,8 @@ class AdminController extends Controller
         return view('admin.preinscripciones', compact('preinscripciones'));
     }
 
-    public function aprobarPreinscripcion($id)
+    public function aprobarPreinscripcion(Preinscripcion $preinscripcion)
     {
-        $preinscripcion = Preinscripcion::findOrFail($id);
-
         if ($preinscripcion->estado !== 'pendiente') {
             return redirect()->back()->with('error', 'Esta preinscripción ya ha sido procesada.');
         }
@@ -54,10 +52,8 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Preinscripción aprobada correctamente.');
     }
 
-    public function rechazarPreinscripcion($id)
+    public function rechazarPreinscripcion(Preinscripcion $preinscripcion)
     {
-        $preinscripcion = Preinscripcion::findOrFail($id);
-
         if ($preinscripcion->estado !== 'pendiente') {
             return redirect()->back()->with('error', 'Esta preinscripción ya ha sido procesada.');
         }
@@ -74,10 +70,8 @@ class AdminController extends Controller
         return view('admin.reservas', compact('reservas'));
     }
 
-    public function confirmarReserva($id)
+    public function confirmarReserva(Reserva $reserva)
     {
-        $reserva = Reserva::findOrFail($id);
-
         if ($reserva->estado !== 'pendiente') {
             return redirect()->back()->with('error', 'Esta reserva no se puede confirmar en su estado actual.');
         }
@@ -86,10 +80,8 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Reserva confirmada correctamente.');
     }
 
-    public function cancelarReserva($id)
+    public function cancelarReserva(Reserva $reserva)
     {
-        $reserva = Reserva::findOrFail($id);
-
         if (!in_array($reserva->estado, ['pendiente', 'confirmada'])) {
             return redirect()->back()->with('error', 'Esta reserva no se puede cancelar en su estado actual.');
         }
