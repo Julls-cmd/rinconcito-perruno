@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Preinscripcion;
+use App\Models\User;
 
 class PreinscripcionTest extends RinconcitoPerrunoTestCase
 {
@@ -88,6 +89,32 @@ class PreinscripcionTest extends RinconcitoPerrunoTestCase
         $this->assertDatabaseHas('preinscripciones', [
             'id' => $preinscripcion->id,
             'estado' => 'aprobada',
+        ]);
+    }
+
+    public function test_aprobar_preinscripcion_crea_el_perro_en_la_cuenta_del_cliente(): void
+    {
+        $this->crearAdmin();
+
+        $cliente = User::factory()->create();
+        $cliente->assignRole('cliente');
+
+        $preinscripcion = Preinscripcion::factory()->create([
+            'estado'       => 'pendiente',
+            'id_usuario'   => $cliente->id,
+            'nombre_perro' => 'Firulais',
+        ]);
+
+        $this->post("/admin/preinscripciones/{$preinscripcion->id}/aprobar");
+
+        $this->assertDatabaseHas('preinscripciones', [
+            'id'     => $preinscripcion->id,
+            'estado' => 'aprobada',
+        ]);
+        // El cliente ya tiene su perro y puede reservar de inmediato.
+        $this->assertDatabaseHas('perros', [
+            'nombre'     => 'Firulais',
+            'id_usuario' => $cliente->id,
         ]);
     }
 

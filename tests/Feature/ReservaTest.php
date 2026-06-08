@@ -127,4 +127,44 @@ class ReservaTest extends RinconcitoPerrunoTestCase
         $response->assertForbidden();
         $this->assertDatabaseMissing('reservas', ['id_perro' => $perroAjeno->id]);
     }
+
+    public function test_cliente_puede_cancelar_su_reserva(): void
+    {
+        ['cliente' => $cliente, 'perro' => $perro, 'servicio' => $servicio] = $this->crearCliente();
+
+        $reserva = Reserva::factory()->create([
+            'id_usuario'  => $cliente->id,
+            'id_perro'    => $perro->id,
+            'id_servicio' => $servicio->id,
+            'estado'      => 'pendiente',
+        ]);
+
+        $this->post("/reservas/{$reserva->id}/cancelar");
+
+        $this->assertDatabaseHas('reservas', [
+            'id'     => $reserva->id,
+            'estado' => 'cancelada',
+        ]);
+    }
+
+    public function test_cliente_no_puede_cancelar_reserva_ajena(): void
+    {
+        $this->crearCliente();
+
+        $otroUsuario = User::factory()->create();
+        $perroAjeno = Perro::factory()->create(['id_usuario' => $otroUsuario->id]);
+        $servicio = Servicio::factory()->create();
+        $reservaAjena = Reserva::factory()->create([
+            'id_usuario'  => $otroUsuario->id,
+            'id_perro'    => $perroAjeno->id,
+            'id_servicio' => $servicio->id,
+            'estado'      => 'pendiente',
+        ]);
+
+        $this->post("/reservas/{$reservaAjena->id}/cancelar")->assertForbidden();
+        $this->assertDatabaseHas('reservas', [
+            'id'     => $reservaAjena->id,
+            'estado' => 'pendiente',
+        ]);
+    }
 }

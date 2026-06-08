@@ -4,6 +4,13 @@
 
     <div class="dashboard-wrapper">
 
+        @if(session('success'))
+            <div style="background: rgba(125, 212, 200, 0.2); border: 2px solid #7DD4C8; border-radius: 12px; padding: 1rem; color: #4AADA0; font-weight: 700; margin-bottom: 1.5rem; font-size: 14px;">{{ session('success') }}</div>
+        @endif
+        @if(session('error'))
+            <div style="background: rgba(220, 38, 38, 0.08); border: 2px solid #dc2626; border-radius: 12px; padding: 1rem; color: #dc2626; font-weight: 700; margin-bottom: 1.5rem; font-size: 14px;">{{ session('error') }}</div>
+        @endif
+
         <!-- BIENVENIDA -->
         <div class="welcome-card">
             <div class="welcome-text">
@@ -56,20 +63,19 @@
                 <span>Preinscripción</span>
                 <small>Registrar mi perro</small>
             </a>
-            @if($perros->isNotEmpty())
-            <a href="{{ route('multimedia.index', $perros->first()->id) }}" class="action-btn">
-            @else
-            <a href="#" class="action-btn" style="opacity:.5;pointer-events:none;">
-            @endif
+            @foreach($perros as $perro)
+            <a href="{{ route('multimedia.index', $perro->id) }}" class="action-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
-                <span>Seguimiento</span>
+                <span>Ver galería de {{ $perro->nombre }}</span>
                 <small>Fotos y vídeos</small>
             </a>
+            @endforeach
             <a href="{{ route('pagos.index') }}" class="action-btn">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
     <span>Mis pagos</span>
     <small>Historial y bonos</small>
 </a>
+        </div>
 
         <!-- GRID PRINCIPAL -->
         <div class="dashboard-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; width: 100%; align-items: stretch; justify-items: stretch;">
@@ -93,6 +99,14 @@
             <a href="{{ route('pagos.checkout', $reserva->id) }}" style="background:#3D1C02;color:#C9A84C;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;text-decoration:none;border:1px solid #C9A84C;">
                 Pagar
             </a>
+        @endif
+        @if(in_array($reserva->estado, ['pendiente', 'confirmada']))
+            <form method="POST" action="{{ route('reservas.cancelar', $reserva->id) }}" onsubmit="return confirm('¿Seguro que quieres cancelar esta reserva?');" style="margin:0;">
+                @csrf
+                <button type="submit" style="background:#fff;color:#dc2626;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;border:1px solid #dc2626;cursor:pointer;">
+                    Cancelar
+                </button>
+            </form>
         @endif
     </div>
 </div>

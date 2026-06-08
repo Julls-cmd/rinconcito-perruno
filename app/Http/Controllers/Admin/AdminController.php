@@ -49,9 +49,34 @@ class AdminController extends Controller
             return redirect()->back()->with('error', 'Esta preinscripción ya ha sido procesada.');
         }
 
+        // Resolver el dueño: el usuario que la envió o, si fue un visitante,
+        // un cliente registrado con el mismo email de contacto.
+        $propietario = $preinscripcion->id_usuario
+            ? User::find($preinscripcion->id_usuario)
+            : User::where('email', $preinscripcion->email_contacto)->first();
+
+        // Si hay dueño, se da de alta el perro con los datos de la preinscripción
+        // para que el cliente pueda reservar de inmediato.
+        if ($propietario) {
+            Perro::create([
+                'nombre' => $preinscripcion->nombre_perro,
+                'raza' => $preinscripcion->raza,
+                'edad' => $preinscripcion->edad,
+                'peso' => $preinscripcion->peso,
+                'temperamento' => $preinscripcion->temperamento,
+                'vacunas' => $preinscripcion->vacunas,
+                'observaciones' => $preinscripcion->observaciones,
+                'id_usuario' => $propietario->id,
+            ]);
+        }
+
         $preinscripcion->update(['estado' => 'aprobada']);
 
-        return redirect()->back()->with('success', 'Preinscripción aprobada correctamente.');
+        $mensaje = $propietario
+            ? "Preinscripción aprobada. El perro {$preinscripcion->nombre_perro} se ha añadido a la cuenta de {$propietario->name}."
+            : 'Preinscripción aprobada. El perro se dará de alta cuando el cliente cree su cuenta con este email.';
+
+        return redirect()->back()->with('success', $mensaje);
     }
 
     public function rechazarPreinscripcion(Preinscripcion $preinscripcion)

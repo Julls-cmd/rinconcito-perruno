@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BonoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MultimediaController;
 use App\Http\Controllers\PagoController;
@@ -32,6 +33,7 @@ Route::post('/preinscripcion', [PreinscripcionController::class, 'store'])->midd
 Route::get('/disponibilidad', [ReservaController::class, 'index'])->middleware('auth')->name('reservas.index');
 Route::get('/disponibilidad/eventos', [ReservaController::class, 'disponibilidad'])->name('reservas.disponibilidad');
 Route::post('/reservas', [ReservaController::class, 'store'])->middleware(['auth', 'throttle:10,1'])->name('reservas.store');
+Route::post('/reservas/{reserva}/cancelar', [ReservaController::class, 'cancelar'])->middleware('auth')->name('reservas.cancelar');
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('index');
@@ -43,6 +45,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/reservas/{reserva}/cancelar', [AdminController::class, 'cancelarReserva'])->name('reservas.cancelar');
     Route::get('/usuarios', [AdminController::class, 'usuarios'])->name('usuarios');
     Route::get('/multimedia', [MultimediaController::class, 'adminIndex'])->name('multimedia');
+    Route::get('/bonos', [BonoController::class, 'index'])->name('bonos');
+    Route::post('/bonos', [BonoController::class, 'store'])->name('bonos.store');
+    Route::delete('/bonos/{bono}', [BonoController::class, 'destroy'])->name('bonos.destroy');
 });
 
 Route::middleware('auth')->group(function () {

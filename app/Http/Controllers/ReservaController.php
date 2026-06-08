@@ -88,4 +88,23 @@ class ReservaController extends Controller
                 ->with('success', '¡Reserva realizada correctamente! Nos pondremos en contacto contigo para confirmarla.');
         });
     }
+
+    public function cancelar(Reserva $reserva)
+    {
+        // Seguridad: la reserva debe pertenecer al usuario autenticado (evita IDOR)
+        if ($reserva->id_usuario !== Auth::id()) {
+            abort(403);
+        }
+
+        // Solo se puede cancelar lo que aún no ha entrado en la guardería
+        if (! in_array($reserva->estado, ['pendiente', 'confirmada'])) {
+            return redirect()->back()
+                ->with('error', 'Esta reserva ya no se puede cancelar.');
+        }
+
+        $reserva->update(['estado' => 'cancelada']);
+
+        return redirect()->back()
+            ->with('success', 'Tu reserva ha sido cancelada correctamente.');
+    }
 }

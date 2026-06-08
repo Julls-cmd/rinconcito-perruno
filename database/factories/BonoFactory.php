@@ -19,7 +19,7 @@ class BonoFactory extends Factory
             'nombre' => fake()->words(2, true),
             'descripcion' => fake()->sentence(),
             'descuento_porcentaje' => 10.00,
-            'descuento_fijo' => null,
+            'descuento_fijo' => 0,
             'condicion' => null,
             'usos_maximos' => 5,
             'usos_restantes' => fake()->numberBetween(1, 5),

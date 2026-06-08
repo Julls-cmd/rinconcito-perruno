@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/css/landing.css', 'resources/css/reservas.css', 'resources/js/app.js'])
-    <link rel="stylesheet" href="{{ asset('css/reservas.css') }}">
 </head>
 <body>
 
@@ -164,7 +163,7 @@
     </div>
 </div>
 
-<<script>
+<script>
     const disponibilidadUrl = "{{ route('reservas.disponibilidad') }}";
 </script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
